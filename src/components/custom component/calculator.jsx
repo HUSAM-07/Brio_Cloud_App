@@ -1,21 +1,18 @@
 'use client';
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 
-import { fetchCloudData } from "@/lib/cloudData";
+import cloudData from '../../../public/cloud-data.csv';
 
 export function Calculator() {
-  const [cloudData, setCloudData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState(cloudData);
   const [cheapestVMs, setCheapestVMs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -29,19 +26,13 @@ export function Calculator() {
   });
 
   useEffect(() => {
-    const loadCloudData = async () => {
-      const data = await fetchCloudData();
-      setCloudData(data);
-      setFilteredData(data); // Set filteredData to all data initially
-      setCheapestVMs(findCheapestVMs(data));
-    };
-    loadCloudData();
+    setCheapestVMs(findCheapestVMs(cloudData));
   }, []);
 
   const findCheapestVMs = (data) => {
     const vmsByRegion = data.reduce((acc, vm) => {
       const region = vm.bestPriceRegion.split(' / ')[0];
-      if (!acc[region] || vm.linuxPrice < acc[region].linuxPrice) {
+      if (!acc[region] || parseFloat(vm.linuxPrice) < parseFloat(acc[region].linuxPrice)) {
         acc[region] = vm;
       }
       return acc;
@@ -51,8 +42,8 @@ export function Calculator() {
 
   const onSubmit = (data) => {
     const filtered = cloudData.filter(vm => {
-      const coresMatch = !data.cores || vm.numberOfCores >= parseInt(data.cores);
-      const memoryMatch = !data.memory || vm.memoryInMB / 1024 >= parseFloat(data.memory);
+      const coresMatch = !data.cores || parseInt(vm.numberOfCores) >= parseInt(data.cores);
+      const memoryMatch = !data.memory || parseFloat(vm.memoryInMB) / 1024 >= parseFloat(data.memory);
       return coresMatch && memoryMatch;
     });
     setFilteredData(filtered);
@@ -165,7 +156,7 @@ export function Calculator() {
                       <TableCell>{vm.bestPriceRegion.split(' / ')[0]}</TableCell>
                       <TableCell>{vm.name}</TableCell>
                       <TableCell>{vm.numberOfCores}</TableCell>
-                      <TableCell>{(vm.memoryInMB / 1024).toFixed(2)}</TableCell>
+                      <TableCell>{(parseFloat(vm.memoryInMB) / 1024).toFixed(2)}</TableCell>
                       <TableCell>${vm.linuxPrice}</TableCell>
                       <TableCell>${vm.windowsPrice}</TableCell>
                     </TableRow>
@@ -200,7 +191,7 @@ export function Calculator() {
                         <TableRow key={index}>
                           <TableCell>{instance.name}</TableCell>
                           <TableCell>{instance.numberOfCores}</TableCell>
-                          <TableCell>{(instance.memoryInMB / 1024).toFixed(2)}</TableCell>
+                          <TableCell>{(parseFloat(instance.memoryInMB) / 1024).toFixed(2)}</TableCell>
                           <TableCell>${instance.linuxPrice}</TableCell>
                           <TableCell>${instance.windowsPrice}</TableCell>
                           <TableCell>{instance.bestPriceRegion}</TableCell>
@@ -238,7 +229,7 @@ export function Calculator() {
 
 function CloudIcon(props) {
   return (
-    (<svg
+    <svg
       {...props}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
@@ -248,28 +239,9 @@ function CloudIcon(props) {
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
-      strokeLinejoin="round">
+      strokeLinejoin="round"
+    >
       <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
-    </svg>)
-  );
-}
-
-function MenuIcon(props) {
-  return (
-    (<svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round">
-      <line x1="4" x2="20" y1="12" y2="12" />
-      <line x1="4" x2="20" y1="6" y2="6" />
-      <line x1="4" x2="20" y1="18" y2="18" />
-    </svg>)
+    </svg>
   );
 }
