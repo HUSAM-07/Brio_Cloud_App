@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import { ArrowTopRightIcon } from '@radix-ui/react-icons'
 
 export default function LandingPage() {
   return (
@@ -13,11 +14,11 @@ export default function LandingPage() {
           <span className="sr-only md:not-sr-only md:ml-2 text-sm font-medium">Cloud Migration Cost Calculator</span>
         </Link>
         <nav className="flex gap-4 sm:gap-6">
-          <Link href="/reports" className="text-sm font-medium hover:underline underline-offset-4">
-            About
+          <Link href="/reports" className="text-sm font-medium hover:underline underline-offset-4 flex items-center">
+            <ArrowTopRightIcon className="mr-1" /> About
           </Link>
-          <Link href="/chart" className="text-sm font-medium hover:underline underline-offset-4">
-            Price Comparison Chart
+          <Link href="/chart" className="text-sm font-medium hover:underline underline-offset-4 flex items-center">
+            <ArrowTopRightIcon className="mr-1" /> Price Comparison Chart
           </Link>
         </nav>
       </header>

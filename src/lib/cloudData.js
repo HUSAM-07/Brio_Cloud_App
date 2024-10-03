@@ -1,14 +1,7 @@
-import Papa from 'papaparse';
-
 export async function fetchCloudData() {
-  const response = await fetch('/cloud-data.csv');
-  const csvText = await response.text();
-  
-  const { data } = Papa.parse(csvText, {
-    header: true,
-    dynamicTyping: true,
-    skipEmptyLines: true,
-  });
-
-  return data;
+  const response = await fetch('/api/cloud-data');
+  if (!response.ok) {
+    throw new Error('Failed to fetch cloud data');
+  }
+  return response.json();
 }

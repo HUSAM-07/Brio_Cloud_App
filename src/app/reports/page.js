@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ArrowTopRightIcon } from '@radix-ui/react-icons';
 
 export default function ReportsPage() {
   return (
@@ -6,9 +7,21 @@ export default function ReportsPage() {
       <h1 className="text-2xl font-bold mb-4">Cloud Migration Cost Calculator</h1>
       <nav className="mb-4">
         <ul className="flex space-x-4">
-          <li><Link href="/" className="text-blue-500 hover:underline">Dashboard</Link></li>
-          <li><Link href="/calculator" className="text-blue-500 hover:underline">Cost Calculator</Link></li>
-          <li><Link href="/reports" className="text-blue-500 hover:underline">Reports</Link></li>
+          <li>
+            <Link href="/" className="text-blue-500 hover:underline flex items-center">
+              <ArrowTopRightIcon className="mr-1" /> Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link href="/calculator" className="text-blue-500 hover:underline flex items-center">
+              <ArrowTopRightIcon className="mr-1" /> Cost Calculator
+            </Link>
+          </li>
+          <li>
+            <Link href="/chart" className="text-blue-500 hover:underline flex items-center">
+              <ArrowTopRightIcon className="mr-1" /> Price Comparison Chart
+            </Link>
+          </li>
         </ul>
       </nav>
       <div className="prose max-w-none">
