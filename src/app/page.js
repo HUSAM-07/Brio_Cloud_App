@@ -13,17 +13,8 @@ export default function LandingPage() {
           <span className="sr-only">Cloud Migration Cost Calculator</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link href="#features" className="text-sm font-medium hover:underline underline-offset-4">
-            Features
-          </Link>
-          <Link href="#pricing" className="text-sm font-medium hover:underline underline-offset-4">
-            Pricing
-          </Link>
-          <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4">
+          <Link href="/report/page" className="text-sm font-medium hover:underline underline-offset-4">
             About
-          </Link>
-          <Link href="#contact" className="text-sm font-medium hover:underline underline-offset-4">
-            Contact
           </Link>
         </nav>
       </header>
