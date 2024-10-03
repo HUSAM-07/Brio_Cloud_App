@@ -32,7 +32,7 @@ export function Calculator() {
     const loadCloudData = async () => {
       const data = await fetchCloudData();
       setCloudData(data);
-      setFilteredData(data);
+      setFilteredData(data); // Set filteredData to all data initially
       setCheapestVMs(findCheapestVMs(data));
     };
     loadCloudData();
@@ -182,46 +182,52 @@ export function Calculator() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Cores</TableHead>
-                    <TableHead>Memory (GB)</TableHead>
-                    <TableHead>Linux Price</TableHead>
-                    <TableHead>Windows Price</TableHead>
-                    <TableHead>Best Price Region</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {paginatedData.map((instance, index) => (
-                    <TableRow key={index}>
-                      <TableCell>{instance.name}</TableCell>
-                      <TableCell>{instance.numberOfCores}</TableCell>
-                      <TableCell>{(instance.memoryInMB / 1024).toFixed(2)}</TableCell>
-                      <TableCell>${instance.linuxPrice}</TableCell>
-                      <TableCell>${instance.windowsPrice}</TableCell>
-                      <TableCell>{instance.bestPriceRegion}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-              <Pagination className="mt-4">
-                <PaginationContent>
-                  <PaginationItem>
-                    <PaginationPrevious
-                      onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                      disabled={currentPage === 1}
-                    />
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationNext
-                      onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(filteredData.length / itemsPerPage)))}
-                      disabled={currentPage === Math.ceil(filteredData.length / itemsPerPage)}
-                    />
-                  </PaginationItem>
-                </PaginationContent>
-              </Pagination>
+              {filteredData.length > 0 ? (
+                <>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Name</TableHead>
+                        <TableHead>Cores</TableHead>
+                        <TableHead>Memory (GB)</TableHead>
+                        <TableHead>Linux Price</TableHead>
+                        <TableHead>Windows Price</TableHead>
+                        <TableHead>Best Price Region</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {paginatedData.map((instance, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{instance.name}</TableCell>
+                          <TableCell>{instance.numberOfCores}</TableCell>
+                          <TableCell>{(instance.memoryInMB / 1024).toFixed(2)}</TableCell>
+                          <TableCell>${instance.linuxPrice}</TableCell>
+                          <TableCell>${instance.windowsPrice}</TableCell>
+                          <TableCell>{instance.bestPriceRegion}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                  <Pagination className="mt-4">
+                    <PaginationContent>
+                      <PaginationItem>
+                        <PaginationPrevious
+                          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                          disabled={currentPage === 1}
+                        />
+                      </PaginationItem>
+                      <PaginationItem>
+                        <PaginationNext
+                          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(filteredData.length / itemsPerPage)))}
+                          disabled={currentPage === Math.ceil(filteredData.length / itemsPerPage)}
+                        />
+                      </PaginationItem>
+                    </PaginationContent>
+                  </Pagination>
+                </>
+              ) : (
+                <p>No data available. Please check your filter criteria or try again later.</p>
+              )}
             </CardContent>
           </Card>
         </div>
