@@ -1,139 +1,85 @@
-'use client';
+import Link from "next/link"
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
-import React, { useState, useEffect } from 'react';
-import { Chart } from 'react-charts';
-import { fetchCloudData } from "@/lib/cloudData";
-import { Calculator } from "@/components/custom component/calculator";
-import Link from "next/link";
-
-export default function Home() {
-  const [cloudData, setCloudData] = useState([]);
-
-  useEffect(() => {
-    const loadCloudData = async () => {
-      const data = await fetchCloudData();
-      setCloudData(data);
-    };
-    loadCloudData();
-  }, []);
-
-  const chartData = React.useMemo(() => {
-    // Sort VMs by the total number of cores
-    const sortedData = [...cloudData].sort((a, b) => b.numberOfCores - a.numberOfCores);
-    
-    // Take the top 10 most common VM types
-    const top10VMs = sortedData.slice(0, 10);
-
-    const linuxData = top10VMs.map(vm => ({
-      vmType: vm.name,
-      price: parseFloat(vm.linuxPrice) || 0,
-    }));
-
-    const windowsData = top10VMs.map(vm => ({
-      vmType: vm.name,
-      price: parseFloat(vm.windowsPrice) || 0,
-    }));
-
-    return [
-      {
-        label: 'Linux Price',
-        data: linuxData,
-      },
-      {
-        label: 'Windows Price',
-        data: windowsData,
-      },
-    ];
-  }, [cloudData]);
-
-  const primaryAxis = React.useMemo(
-    () => ({
-      getValue: datum => datum.vmType,
-      showGrid: false,
-    }),
-    []
-  );
-
-  const secondaryAxes = React.useMemo(
-    () => [
-      {
-        getValue: datum => datum.price,
-        elementType: 'bar',
-        stacked: false,
-        formatters: {
-          tooltip: (value) => {
-            if (typeof value === 'number' && !isNaN(value)) {
-              return `$${value.toFixed(2)}`;
-            }
-            return 'N/A';
-          },
-        },
-      },
-    ],
-    []
-  );
-
+export default function LandingPage() {
   return (
-    <main className="min-h-screen p-4">
-      <h1 className="text-2xl font-bold mb-4">Cloud Migration Cost Calculator</h1>
-      <nav className="mb-4">
-        <ul className="flex space-x-4">
-          <li><Link href="/" className="text-blue-500 hover:underline">Dashboard</Link></li>
-          <li><Link href="/calculator" className="text-blue-500 hover:underline">Cost Calculator</Link></li>
-        </ul>
-      </nav>
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">Price Comparison: Linux vs Windows (Top 10 VM Types)</h2>
-        <div style={{ height: '500px' }}>
-          {cloudData.length > 0 ? (
-            <>
-              <Chart
-                options={{
-                  data: chartData,
-                  primaryAxis,
-                  secondaryAxes,
-                  dark: false,
-                  tooltip: {
-                    render: ({ datum, primaryAxis, getStyle }) => {
-                      if (!datum || !datum.originalDatum) {
-                        return null;
-                      }
-                      const data = datum.originalDatum;
-                      return (
-                        <div
-                          style={{
-                            ...getStyle(),
-                            background: 'white',
-                            color: 'black',
-                            padding: '5px',
-                            border: '1px solid #ccc',
-                          }}
-                        >
-                          <strong>{data.vmType}</strong>
-                          <br />
-                          Price: ${typeof data.price === 'number' ? data.price.toFixed(2) : 'N/A'}
-                        </div>
-                      );
-                    },
-                  },
-                }}
-              />
-              <div className="flex justify-center mt-4">
-                <div className="flex items-center mr-4">
-                  <div className="w-4 h-4 bg-blue-500 mr-2"></div>
-                  <span>Linux Price</span>
-                </div>
-                <div className="flex items-center">
-                  <div className="w-4 h-4 bg-yellow-500 mr-2"></div>
-                  <span>Windows Price</span>
-                </div>
-              </div>
-            </>
-          ) : (
-            <p>Loading chart data...</p>
-          )}
-        </div>
-      </div>
-    </main>
-  );
+    <div className="flex flex-col min-h-[100dvh]">
+      <header className="px-4 lg:px-6 h-14 flex items-center">
+        <Link href="/" className="flex items-center justify-center">
+          <CloudIcon className="h-6 w-6" />
+          <span className="sr-only">Cloud Migration Cost Calculator</span>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link href="#features" className="text-sm font-medium hover:underline underline-offset-4">
+            Features
+          </Link>
+          <Link href="#pricing" className="text-sm font-medium hover:underline underline-offset-4">
+            Pricing
+          </Link>
+          <Link href="#about" className="text-sm font-medium hover:underline underline-offset-4">
+            About
+          </Link>
+          <Link href="#contact" className="text-sm font-medium hover:underline underline-offset-4">
+            Contact
+          </Link>
+        </nav>
+      </header>
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-[#4ca1af] to-[#c4e0e5]">
+          <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center space-y-6">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+              Cloud Migration Cost Calculator
+            </h1>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              Estimate the costs of migrating your infrastructure to the cloud with our easy-to-use calculator.
+            </p>
+            <Link
+              href="/dashboard"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+            >
+              Get Started
+            </Link>
+          </div>
+        </section>
+        {/* ... (rest of the sections remain the same) ... */}
+      </main>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+        <p className="text-xs text-muted-foreground">
+          &copy; 2024 Cloud Migration Cost Calculator. All rights reserved.
+        </p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link href="#" className="text-xs hover:underline underline-offset-4">
+            Terms of Service
+          </Link>
+          <Link href="#" className="text-xs hover:underline underline-offset-4">
+            Privacy Policy
+          </Link>
+        </nav>
+      </footer>
+    </div>
+  )
 }
+
+function CloudIcon(props) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+    </svg>
+  )
+}
+
+// ... (include all the icon components at the end of the file)

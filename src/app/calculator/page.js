@@ -1,3 +1,5 @@
+'use client';
+
 import { Calculator } from "@/components/custom component/calculator";
 
 export default function CalculatorPage() {
