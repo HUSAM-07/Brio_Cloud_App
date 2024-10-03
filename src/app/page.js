@@ -1,101 +1,139 @@
-import Image from "next/image";
+'use client';
+
+import React, { useState, useEffect } from 'react';
+import { Chart } from 'react-charts';
+import { fetchCloudData } from "@/lib/cloudData";
+import { Calculator } from "@/components/custom component/calculator";
+import Link from "next/link";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [cloudData, setCloudData] = useState([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const loadCloudData = async () => {
+      const data = await fetchCloudData();
+      setCloudData(data);
+    };
+    loadCloudData();
+  }, []);
+
+  const chartData = React.useMemo(() => {
+    // Sort VMs by the total number of cores
+    const sortedData = [...cloudData].sort((a, b) => b.numberOfCores - a.numberOfCores);
+    
+    // Take the top 10 most common VM types
+    const top10VMs = sortedData.slice(0, 10);
+
+    const linuxData = top10VMs.map(vm => ({
+      vmType: vm.name,
+      price: parseFloat(vm.linuxPrice) || 0,
+    }));
+
+    const windowsData = top10VMs.map(vm => ({
+      vmType: vm.name,
+      price: parseFloat(vm.windowsPrice) || 0,
+    }));
+
+    return [
+      {
+        label: 'Linux Price',
+        data: linuxData,
+      },
+      {
+        label: 'Windows Price',
+        data: windowsData,
+      },
+    ];
+  }, [cloudData]);
+
+  const primaryAxis = React.useMemo(
+    () => ({
+      getValue: datum => datum.vmType,
+      showGrid: false,
+    }),
+    []
+  );
+
+  const secondaryAxes = React.useMemo(
+    () => [
+      {
+        getValue: datum => datum.price,
+        elementType: 'bar',
+        stacked: false,
+        formatters: {
+          tooltip: (value) => {
+            if (typeof value === 'number' && !isNaN(value)) {
+              return `$${value.toFixed(2)}`;
+            }
+            return 'N/A';
+          },
+        },
+      },
+    ],
+    []
+  );
+
+  return (
+    <main className="min-h-screen p-4">
+      <h1 className="text-2xl font-bold mb-4">Cloud Migration Cost Calculator</h1>
+      <nav className="mb-4">
+        <ul className="flex space-x-4">
+          <li><Link href="/" className="text-blue-500 hover:underline">Dashboard</Link></li>
+          <li><Link href="/calculator" className="text-blue-500 hover:underline">Cost Calculator</Link></li>
+        </ul>
+      </nav>
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">Price Comparison: Linux vs Windows (Top 10 VM Types)</h2>
+        <div style={{ height: '500px' }}>
+          {cloudData.length > 0 ? (
+            <>
+              <Chart
+                options={{
+                  data: chartData,
+                  primaryAxis,
+                  secondaryAxes,
+                  dark: false,
+                  tooltip: {
+                    render: ({ datum, primaryAxis, getStyle }) => {
+                      if (!datum || !datum.originalDatum) {
+                        return null;
+                      }
+                      const data = datum.originalDatum;
+                      return (
+                        <div
+                          style={{
+                            ...getStyle(),
+                            background: 'white',
+                            color: 'black',
+                            padding: '5px',
+                            border: '1px solid #ccc',
+                          }}
+                        >
+                          <strong>{data.vmType}</strong>
+                          <br />
+                          Price: ${typeof data.price === 'number' ? data.price.toFixed(2) : 'N/A'}
+                        </div>
+                      );
+                    },
+                  },
+                }}
+              />
+              <div className="flex justify-center mt-4">
+                <div className="flex items-center mr-4">
+                  <div className="w-4 h-4 bg-blue-500 mr-2"></div>
+                  <span>Linux Price</span>
+                </div>
+                <div className="flex items-center">
+                  <div className="w-4 h-4 bg-yellow-500 mr-2"></div>
+                  <span>Windows Price</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <p>Loading chart data...</p>
+          )}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+      </div>
+    </main>
   );
 }
