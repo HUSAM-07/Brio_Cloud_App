@@ -58,18 +58,19 @@ export function Calculator() {
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-6">
+      <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <CloudIcon className="h-6 w-6" />
-          <span>Cloud Migration Cost Calculator</span>
+          <span className="hidden sm:inline">Cloud Migration Cost Calculator</span>
+          <span className="sm:hidden">Cost Calculator</span>
         </Link>
         <nav className="ml-auto">
           <ul className="flex space-x-4">
-            <li><Link href="/calculator" className="text-blue-500 hover:underline">Cost Calculator</Link></li>
+            <li><Link href="/calculator" className="text-blue-500 hover:underline">Calculator</Link></li>
           </ul>
         </nav>
       </header>
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-4 sm:p-6">
         <div className="grid gap-6">
           <Card>
             <CardHeader>
@@ -126,7 +127,7 @@ export function Calculator() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit">Calculate Costs</Button>
+                  <Button type="submit" className="w-full sm:w-auto">Calculate Costs</Button>
                 </form>
               </Form>
             </CardContent>
@@ -138,7 +139,7 @@ export function Calculator() {
                 The most cost-effective VM options for each region based on your requirements.
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -172,7 +173,7 @@ export function Calculator() {
                 Showing {paginatedData.length} of {filteredData.length} instances
               </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="overflow-x-auto">
               {filteredData.length > 0 ? (
                 <>
                   <Table>
