@@ -17,7 +17,7 @@ export default function LandingPage() {
             About
           </Link>
           <Link href="/chart" className="text-sm font-medium hover:underline underline-offset-4">
-            Price Comparison
+            Price Comparison Chart
           </Link>
         </nav>
       </header>
@@ -71,7 +71,7 @@ export default function LandingPage() {
       </main>
       <footer className="flex flex-col sm:flex-row justify-between items-center py-6 w-full px-4 md:px-6 border-t">
         <p className="text-xs text-muted-foreground mb-4 sm:mb-0">
-          &copy; 2024 Cloud Migration Cost Calculator. All rights reserved.
+          &copy; {new Date().getFullYear()} Brio Tech - Cloud Services. All rights reserved.
         </p>
         <nav className="flex gap-4 sm:gap-6">
           <Link href="#" className="text-xs hover:underline underline-offset-4">

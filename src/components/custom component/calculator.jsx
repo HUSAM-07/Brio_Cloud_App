@@ -74,7 +74,6 @@ export function Calculator() {
         </Link>
         <nav className="ml-auto">
           <ul className="flex space-x-4">
-            <li><Link href="/" className="text-blue-500 hover:underline">Dashboard</Link></li>
             <li><Link href="/calculator" className="text-blue-500 hover:underline">Cost Calculator</Link></li>
           </ul>
         </nav>
