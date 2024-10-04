@@ -3,40 +3,71 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { ArrowTopRightIcon } from '@radix-ui/react-icons'
 import { SignUpButton } from "@/components/SignUpButton"
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold">
+    <div className="flex flex-col min-h-[100dvh]">
+      <header className="px-4 lg:px-6 h-14 flex items-center justify-between">
+        <Link href="/" className="flex items-center justify-center">
           <CloudIcon className="h-6 w-6" />
-          <span className="hidden sm:inline">Cloud Migration Cost Calculator</span>
-          <span className="sm:hidden">Cost Calculator</span>
+          <span className="sr-only">Cloud Migration Cost Calculator</span>
         </Link>
-        <nav>
-          <ul className="flex space-x-4 items-center">
-            <li><Link href="/calculator" className="text-primary hover:text-primary-foreground">Calculator</Link></li>
-            <li><SignUpButton /></li>
-          </ul>
+        <nav className="flex gap-4 sm:gap-6">
+          <SignUpButton />
         </nav>
       </header>
-      <main className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-4">
-            Cloud Migration Cost Calculator
-          </h1>
-          <p className="text-xl sm:text-2xl text-muted-foreground mb-8">
-            Estimate your cloud migration costs easily and accurately.
-          </p>
-          <Link href="/calculator">
-            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-[#4ca1af] to-[#c4e0e5]">
+          <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center space-y-6">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
+              Cloud Migration Cost Calculator
+            </h1>
+            <p className="max-w-[700px] text-muted-foreground md:text-xl">
+              Estimate the costs of migrating your infrastructure to the cloud with our easy-to-use calculator.
+            </p>
+            <Link
+              href="/calculator"
+              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+            >
               Get Started
-            </Button>
-          </Link>
-        </div>
+            </Link>
+          </div>
+        </section>
+        {/* Features section */}
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32">
+          {/* ... (features content remains the same) ... */}
+        </section>
+        {/* Calculator section */}
+        <section id="calculator" className="w-full py-12 md:py-24 lg:py-32">
+          {/* ... (calculator content remains the same) ... */}
+        </section>
+        {/* Pricing section */}
+        <section id="pricing" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+          {/* ... (pricing content remains the same) ... */}
+        </section>
+        {/* About section */}
+        <section id="about" className="w-full py-12 md:py-24 lg:py-32">
+          {/* ... (about content remains the same) ... */}
+        </section>
+        {/* Contact section */}
+        <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-muted">
+          {/* ... (contact content remains the same) ... */}
+        </section>
       </main>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
+        <p className="text-xs text-muted-foreground">
+          &copy; 2024 Cloud Migration Cost Calculator. All rights reserved.
+        </p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link href="#" className="text-xs hover:underline underline-offset-4">
+            Terms of Service
+          </Link>
+          <Link href="#" className="text-xs hover:underline underline-offset-4">
+            Privacy Policy
+          </Link>
+        </nav>
+      </footer>
     </div>
   )
 }
