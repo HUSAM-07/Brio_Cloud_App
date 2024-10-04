@@ -19,7 +19,7 @@ export default function LandingPage() {
         </nav>
       </header>
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-cover bg-center bg-no-repeat relative" style={{ backgroundImage: "url('/BRIO Tech.svg')" }}>
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-cover bg-center bg-no-repeat relative" style={{ backgroundImage: "url('/brio-banner.svg')" }}>
           <div className="absolute inset-0 bg-white bg-opacity-70"></div>
           <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center space-y-6 relative z-10">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl text-black">
