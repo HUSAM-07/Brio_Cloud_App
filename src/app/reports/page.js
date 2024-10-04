@@ -3,22 +3,22 @@ import { ArrowTopRightIcon } from '@radix-ui/react-icons';
 
 export default function ReportsPage() {
   return (
-    <div className="min-h-screen p-4">
+    <div className="min-h-screen p-4 bg-background text-foreground">
       <h1 className="text-2xl font-bold mb-4">Cloud Migration Cost Calculator</h1>
       <nav className="mb-4">
         <ul className="flex space-x-4">
           <li>
-            <Link href="/" className="text-blue-500 hover:underline flex items-center">
+            <Link href="/" className="text-primary hover:text-primary-foreground flex items-center">
               <ArrowTopRightIcon className="mr-1" /> Dashboard
             </Link>
           </li>
           <li>
-            <Link href="/calculator" className="text-blue-500 hover:underline flex items-center">
+            <Link href="/calculator" className="text-primary hover:text-primary-foreground flex items-center">
               <ArrowTopRightIcon className="mr-1" /> Cost Calculator
             </Link>
           </li>
           <li>
-            <Link href="/chart" className="text-blue-500 hover:underline flex items-center">
+            <Link href="/chart" className="text-primary hover:text-primary-foreground flex items-center">
               <ArrowTopRightIcon className="mr-1" /> Price Comparison Chart
             </Link>
           </li>

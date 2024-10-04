@@ -1,4 +1,9 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: ['firebasestorage.googleapis.com'],
+  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.csv$/,
@@ -12,3 +17,5 @@ module.exports = {
     return config
   },
 }
+
+module.exports = nextConfig

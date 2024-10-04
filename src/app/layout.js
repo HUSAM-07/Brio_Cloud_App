@@ -1,12 +1,11 @@
-import { IBM_Plex_Mono } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import './globals.css'
 import { Footer } from '@/components/Footer'
 
-const fontMono = IBM_Plex_Mono({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '700'],
-  variable: '--font-mono',
+  variable: '--font-sans',
 })
 
 export const metadata = {
@@ -16,14 +15,11 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className={cn("h-full", inter.variable)}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body className={cn(
-        'min-h-screen bg-background font-mono antialiased flex flex-col',
-        fontMono.variable
-      )}>
+      <body className="min-h-screen bg-background font-sans antialiased flex flex-col">
         <div className="flex-grow">
           {children}
         </div>

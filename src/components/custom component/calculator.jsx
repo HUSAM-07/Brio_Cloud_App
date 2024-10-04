@@ -57,24 +57,24 @@ export function Calculator() {
   );
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:px-6">
+    <div className="flex min-h-screen w-full flex-col bg-background">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:px-6">
         <Link href="/" className="flex items-center gap-2 font-semibold">
           <CloudIcon className="h-6 w-6" />
           <span className="hidden sm:inline">Cloud Migration Cost Calculator</span>
           <span className="sm:hidden">Cost Calculator</span>
         </Link>
-        <nav className="ml-auto">
+        <nav>
           <ul className="flex space-x-4">
-            <li><Link href="/calculator" className="text-blue-500 hover:underline">Calculator</Link></li>
+            <li><Link href="/calculator" className="text-primary hover:text-primary-foreground">Calculator</Link></li>
           </ul>
         </nav>
       </header>
       <main className="flex-1 p-4 sm:p-6">
         <div className="grid gap-6">
-          <Card>
+          <Card className="bg-card text-card-foreground">
             <CardHeader>
-              <CardTitle>Cloud Migration Cost Calculator</CardTitle>
+              <CardTitle className="text-xl sm:text-2xl">Cloud Migration Cost Calculator</CardTitle>
               <CardDescription>
                 Enter your infrastructure requirements to estimate migration costs.
               </CardDescription>
@@ -127,12 +127,12 @@ export function Calculator() {
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full sm:w-auto">Calculate Costs</Button>
+                  <Button type="submit" className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90">Calculate Costs</Button>
                 </form>
               </Form>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-card text-card-foreground">
             <CardHeader>
               <CardTitle>Cheapest VMs by Region</CardTitle>
               <CardDescription>
@@ -140,8 +140,8 @@ export function Calculator() {
               </CardDescription>
             </CardHeader>
             <CardContent className="overflow-x-auto">
-              <Table>
-                <TableHeader>
+              <Table className="w-full">
+                <TableHeader className="bg-muted">
                   <TableRow>
                     <TableHead>Region</TableHead>
                     <TableHead>Name</TableHead>
@@ -166,7 +166,7 @@ export function Calculator() {
               </Table>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="bg-card text-card-foreground">
             <CardHeader>
               <CardTitle>All Available Cloud Instances</CardTitle>
               <CardDescription>
@@ -176,8 +176,8 @@ export function Calculator() {
             <CardContent className="overflow-x-auto">
               {filteredData.length > 0 ? (
                 <>
-                  <Table>
-                    <TableHeader>
+                  <Table className="w-full">
+                    <TableHeader className="bg-muted">
                       <TableRow>
                         <TableHead>Name</TableHead>
                         <TableHead>Cores</TableHead>
@@ -204,12 +204,14 @@ export function Calculator() {
                     <PaginationContent>
                       <PaginationItem>
                         <PaginationPrevious
+                          className="bg-secondary text-secondary-foreground hover:bg-secondary/80"
                           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                           disabled={currentPage === 1}
                         />
                       </PaginationItem>
                       <PaginationItem>
                         <PaginationNext
+                          className="bg-secondary text-secondary-foreground hover:bg-secondary/80"
                           onClick={() => setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(filteredData.length / itemsPerPage)))}
                           disabled={currentPage === Math.ceil(filteredData.length / itemsPerPage)}
                         />

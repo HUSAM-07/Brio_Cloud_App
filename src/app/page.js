@@ -4,85 +4,39 @@ import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ArrowTopRightIcon } from '@radix-ui/react-icons'
+import { SignUpButton } from "@/components/SignUpButton"
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-[100dvh]">
-      <header className="px-4 lg:px-6 h-14 flex items-center justify-between">
-        <Link href="/" className="flex items-center justify-center">
+    <div className="min-h-screen flex flex-col bg-background">
+      <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:px-6">
+        <Link href="/" className="flex items-center gap-2 font-semibold">
           <CloudIcon className="h-6 w-6" />
-          <span className="sr-only md:not-sr-only md:ml-2 text-sm font-medium">Cloud Migration Cost Calculator</span>
+          <span className="hidden sm:inline">Cloud Migration Cost Calculator</span>
+          <span className="sm:hidden">Cost Calculator</span>
         </Link>
-        <nav className="flex gap-4 sm:gap-6">
-          <Link href="/reports" className="text-sm font-medium hover:underline underline-offset-4 flex items-center">
-            <ArrowTopRightIcon className="mr-1" /> About
-          </Link>
-          <Link href="/chart" className="text-sm font-medium hover:underline underline-offset-4 flex items-center">
-            <ArrowTopRightIcon className="mr-1" /> Price Comparison Chart
-          </Link>
+        <nav>
+          <ul className="flex space-x-4 items-center">
+            <li><Link href="/calculator" className="text-primary hover:text-primary-foreground">Calculator</Link></li>
+            <li><SignUpButton /></li>
+          </ul>
         </nav>
       </header>
-      <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-[#4ca1af] to-[#c4e0e5]">
-          <div className="container px-4 md:px-6 flex flex-col items-center justify-center text-center space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter">
-              Cloud Migration Cost Calculator
-            </h1>
-            <p className="max-w-[700px] text-sm sm:text-base md:text-lg text-muted-foreground">
-              Estimate the costs of migrating your infrastructure to the cloud with our easy-to-use calculator.
-            </p>
-            <Link
-              href="/dashboard"
-              className="inline-flex h-10 items-center justify-center rounded-md bg-primary px-4 sm:px-6 md:px-8 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
-            >
+      <main className="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-4">
+            Cloud Migration Cost Calculator
+          </h1>
+          <p className="text-xl sm:text-2xl text-muted-foreground mb-8">
+            Estimate your cloud migration costs easily and accurately.
+          </p>
+          <Link href="/calculator">
+            <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
               Get Started
-            </Link>
-          </div>
-        </section>
-        <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
-            <div className="grid gap-6 lg:grid-cols-3 lg:gap-12">
-              <Card className="flex flex-col items-center text-center">
-                <CardHeader>
-                  <CardTitle>Easy to Use</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm sm:text-base">Our calculator is designed for simplicity, allowing you to quickly estimate your cloud migration costs.</p>
-                </CardContent>
-              </Card>
-              <Card className="flex flex-col items-center text-center">
-                <CardHeader>
-                  <CardTitle>Accurate Estimates</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm sm:text-base">Get precise cost estimates based on real-time data from major cloud providers.</p>
-                </CardContent>
-              </Card>
-              <Card className="flex flex-col items-center text-center">
-                <CardHeader>
-                  <CardTitle>Compare Providers</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm sm:text-base">Compare costs across different cloud providers to find the best solution for your needs.</p>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
+            </Button>
+          </Link>
+        </div>
       </main>
-      <footer className="flex flex-col sm:flex-row justify-between items-center py-6 w-full px-4 md:px-6 border-t">
-        <p className="text-xs text-muted-foreground mb-4 sm:mb-0">
-          &copy; {new Date().getFullYear()} Brio Tech - Cloud Services. All rights reserved.
-        </p>
-        <nav className="flex gap-4 sm:gap-6">
-          <Link href="#" className="text-xs hover:underline underline-offset-4">
-            Terms of Service
-          </Link>
-          <Link href="#" className="text-xs hover:underline underline-offset-4">
-            Privacy Policy
-          </Link>
-        </nav>
-      </footer>
     </div>
   )
 }
